@@ -42,8 +42,8 @@ public class Installer {
 
     public static boolean install(File libraryDir, File minecraftJar, File installerJar) throws Throwable {
         ProgressCallback monitor = ProgressCallback.withOutputs(System.out);
-		boolean prefer_ipv4_stack_unset = System.getProperty("java.net.preferIPv4Stack") == null;
-        if (prefer_ipv4_stack_unset) {
+		boolean preferIpv4StackUnset = System.getProperty("java.net.preferIPv4Stack") == null;
+        if (preferIpv4StackUnset) {
             System.setProperty("java.net.preferIPv4Stack", "true");
         }
         String vendor = System.getProperty("java.vendor", "missing vendor");
@@ -56,7 +56,7 @@ public class Installer {
         // MinecraftForge has removed all old installers since 2024/2/27, but they still exist in NeoForge.
         PostProcessors processors = new PostProcessors(wrapper, true, monitor);
         Method processMethod = PostProcessors.class.getMethod("process", File.class, File.class, File.class, File.class);
-        if (prefer_ipv4_stack_unset) {
+        if (preferIpv4StackUnset) {
             System.clearProperty("java.net.preferIPv4Stack");
         }
         if (boolean.class.equals(processMethod.getReturnType())) {
